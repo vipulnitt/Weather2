@@ -2,6 +2,7 @@ package com.example.weather2;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -25,6 +26,9 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.karumi.dexter.Dexter;
@@ -45,9 +49,10 @@ import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends FragmentActivity implements OnMapReadyCallback {
     final String API_KEY = "3281e272d10e19dc8ff66b787214eea1";
     final String URL = "https://api.openweathermap.org/data/2.5/weather";
+    GoogleMap map;
     TextView Weathercondition,humidity,speed,location,pressure,temperature;
      ImageView imageView,btnimg;
     FusedLocationProviderClient fusedLocationProviderClient;
@@ -63,6 +68,9 @@ public class MainActivity extends AppCompatActivity {
         temperature = findViewById(R.id.temp);
         imageView = findViewById(R.id.imageView2);
         btnimg = findViewById(R.id.imageView4);
+        SupportMapFragment  mapFragment =(SupportMapFragment)getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(MainActivity.this);
         permission();
         btnimg.setOnClickListener(new View.OnClickListener() {
@@ -184,5 +192,10 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("vipul","Fail");
             }
         });
+    }
+
+    @Override
+    public void onMapReady(@NonNull GoogleMap googleMap) {
+
     }
 }
